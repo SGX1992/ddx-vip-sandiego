@@ -1,0 +1,476 @@
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+
+/* The DDX chrome from the poster tool: 98% black, structure carried by hairlines,
+   one accent. The evenings themselves bring the colour — the photos and the
+   partners' marks are the only things on the page that aren't black, white or
+   yellow, which is what keeps them the brightest thing on it. */
+:root{
+  --bg:#050505;
+  --card:#0B0B0B;
+  --input-bg:#090909;
+  --input-border:#242424;
+  --surface:#0E0E0E;
+  --surface-hi:#191919;
+  --accent:#FFF204;
+  --accent-rgb:255,242,4;
+  --accent-dim:#5A5600;
+  --accent-edge:#4A4632;
+  --text:#ffffff;
+  --text-dim:#9A9A9A;
+  --text-faint:#5C5C5C;
+  --font:"Helvetica Neue",Inter,Helvetica,Arial,sans-serif;
+  --measure:1180px;
+  --gutter:clamp(20px,5vw,72px);
+  color-scheme:dark;
+}
+
+html{scroll-behavior:smooth}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100%;max-width:100%;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.wrap{max-width:var(--measure);margin:0 auto;padding:0 var(--gutter)}
+
+/* ---------- preview banner ---------- */
+.preview-bar{
+  position:sticky;top:0;z-index:40;display:flex;justify-content:center;gap:10px;
+  padding:8px 16px;background:var(--accent);color:#0B0B0B;font-size:13px;font-weight:600;text-align:center;
+}
+
+/* ---------- hero ----------
+   The photo is the thesis: the evenings are what the page sells, and the city
+   at dusk is what an evening here looks like. Sized to what it holds, not the
+   viewport — the two cards must be reachable without a scroll on a laptop. */
+.hero{position:relative;overflow:hidden;isolation:isolate;min-height:560px;display:flex;flex-direction:column}
+.hero>.wrap{width:100%}
+.hero__img{
+  position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:50% 42%;
+  transform:scale(1.04);transform-origin:50% 60%;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(180deg,rgba(5,5,5,.72) 0%,rgba(5,5,5,.18) 34%,rgba(5,5,5,.22) 62%,var(--bg) 100%),
+    linear-gradient(90deg,rgba(5,5,5,.55) 0%,rgba(5,5,5,0) 60%);
+}
+.hero__top{display:flex;align-items:center;justify-content:space-between;padding-top:28px}
+.brand-mark{width:76px;height:auto}
+.hero__ticket{
+  font-size:13px;font-weight:600;letter-spacing:.02em;color:#fff;text-decoration:none;
+  padding:9px 15px;border-radius:999px;border:1px solid rgba(255,255,255,.34);
+  background:rgba(5,5,5,.38);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.hero__ticket:hover{border-color:var(--accent);color:var(--accent)}
+
+.hero__body{padding-top:clamp(64px,10vw,128px);padding-bottom:clamp(36px,5vw,64px);max-width:calc(900px + 2 * var(--gutter))}
+.eyebrow{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  font-size:12.5px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);
+}
+.eyebrow i{display:inline-block;width:26px;height:2px;background:var(--accent)}
+.eyebrow span+span{color:rgba(255,255,255,.72)}
+.hero h1{
+  margin-top:22px;
+  font-size:clamp(44px,7.4vw,104px);line-height:.94;font-weight:700;letter-spacing:-.035em;
+  text-wrap:balance;text-transform:uppercase;
+}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero__sub{margin-top:22px;max-width:52ch;font-size:clamp(17px,1.6vw,20px);line-height:1.45;color:rgba(255,255,255,.86)}
+.hero__sub b{color:#fff;font-weight:600}
+
+/* ---------- section heads ---------- */
+.section{padding:clamp(40px,6vw,72px) 0 0}
+.section__head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:26px}
+.section__head h2{font-size:clamp(26px,3.2vw,38px);letter-spacing:-.025em;font-weight:700;line-height:1.05;text-wrap:balance}
+.section__head p{color:var(--text-dim);font-size:15px;max-width:44ch}
+
+/* ---------- the two evenings ----------
+   Each card is one selectable object: photo with the partner's mark set on it,
+   then the facts in a fixed grid, then the invitation. The tick is part of the
+   card, not a control beside it — you choose an evening, not a checkbox. */
+.evenings{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.evening{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--input-border);border-radius:18px;overflow:hidden;
+  cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;
+}
+.evening a{user-select:text}
+.evening:hover{border-color:rgba(var(--accent-rgb),.6)}
+.evening:focus-within{outline:none}
+.evening.is-on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 24px 60px -20px rgba(var(--accent-rgb),.22)}
+
+.evening__photo{position:relative;aspect-ratio:16/9;overflow:hidden;background:#111}
+.evening__photo img{width:100%;height:100%;object-fit:cover}
+.evening__photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(5,5,5,.15) 0%,rgba(5,5,5,0) 40%,rgba(11,11,11,.92) 100%);
+}
+.evening__kicker{
+  position:absolute;left:20px;top:18px;z-index:1;
+  font-size:11.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);
+}
+.evening__logos{position:absolute;left:20px;bottom:18px;z-index:1;display:flex;align-items:center;gap:14px;color:#fff}
+.evening__logos .sep{width:1px;height:22px;background:rgba(255,255,255,.35)}
+.logo{display:flex;align-items:center;gap:7px;height:28px}
+.logo img,.logo svg{height:100%;width:auto}
+.logo--adobe svg{height:26px}
+.logo--adobe b{font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.logo--marvin img{height:30px}
+.logo--dscout img{height:24px;width:auto}
+
+/* The selected-state badge, top right. Not a control — the card is. */
+.evening__badge{
+  position:absolute;right:14px;top:14px;z-index:1;
+  width:34px;height:34px;border-radius:50%;
+  background:var(--accent);color:#0B0B0B;display:grid;place-items:center;
+  transform:scale(0);opacity:0;
+}
+.evening__badge svg{width:16px;height:16px;stroke:#0B0B0B;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.evening.is-on .evening__badge{transform:scale(1);opacity:1}
+
+.evening__body{display:flex;flex-direction:column;gap:18px;padding:22px 22px 24px}
+.evening__title{font-size:clamp(26px,2.6vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1;text-wrap:balance}
+.evening__title small{display:block;margin-top:6px;font-size:15px;font-weight:500;letter-spacing:0;color:var(--text-dim)}
+
+/* The facts. A label column and a value column, digits tabular, so the two
+   cards line up line for line and the eye can compare them. */
+.facts{display:grid;grid-template-columns:auto 1fr;gap:7px 18px;font-size:14.5px;font-variant-numeric:tabular-nums}
+.facts dt{color:var(--text-faint);font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding-top:2px}
+.facts dd{color:#fff}
+.facts dd b{font-weight:600}
+.facts dd a{color:var(--text-dim);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18)}
+.facts dd a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+.evening__lede{font-size:18px;line-height:1.35;font-weight:600;letter-spacing:-.012em;text-wrap:balance}
+
+/* The date, made unmissable: its own block right under the title. */
+.evening__date{
+  display:flex;align-items:baseline;gap:6px 12px;flex-wrap:wrap;
+  padding:11px 14px;border-radius:10px;
+  background:rgba(var(--accent-rgb),.08);border:1px solid rgba(var(--accent-rgb),.28);
+  font-variant-numeric:tabular-nums;
+}
+.evening__date b{font-size:19px;font-weight:700;letter-spacing:-.02em;color:#fff}
+.evening__date span{font-size:15px;font-weight:600;color:var(--accent)}
+.evening__copy{font-size:14.5px;line-height:1.55;color:var(--text-dim);max-width:52ch}
+
+.agenda{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:13.5px;color:var(--text-dim);
+  padding-top:14px;border-top:1px solid var(--input-border)}
+
+/* The card's own button. It is the same control as the card, with words on it:
+   ghost until chosen, solid yellow once it is. */
+.evening__cta{
+  margin-top:6px;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  padding:15px 18px;border-radius:12px;cursor:pointer;
+  border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.04);
+  color:#fff;font-family:var(--font);font-size:15.5px;font-weight:600;letter-spacing:-.005em;
+}
+.evening__cta i{
+  flex:0 0 auto;width:22px;height:22px;border-radius:50%;
+  border:1.5px solid currentColor;display:grid;place-items:center;
+}
+.evening__cta i svg{width:12px;height:12px;stroke:currentColor;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:24;stroke-dashoffset:24}
+.evening__cta .on{display:none}
+.evening__cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.evening:hover .evening__cta{border-color:var(--accent);color:var(--accent);background:rgba(var(--accent-rgb),.09)}
+.evening.is-on .evening__cta{background:var(--accent);border-color:var(--accent);color:#0B0B0B}
+.evening.is-on .evening__cta i{background:#0B0B0B;border-color:#0B0B0B;color:var(--accent)}
+.evening.is-on .evening__cta i svg{stroke-dashoffset:0}
+.evening.is-on .evening__cta .on{display:inline}
+.evening.is-on .evening__cta .off{display:none}
+.evening.is-on:hover .evening__cta{background:#fff;border-color:#fff}
+/* Desktop shows everything; the fold exists on phones and on the VIP page's
+   smaller cards. */
+.evening__more{display:contents}
+.evening__toggle{
+  display:none;align-items:center;gap:6px;align-self:flex-start;
+  background:none;border:none;padding:2px 0;cursor:pointer;
+  font-family:var(--font);font-size:13.5px;font-weight:600;color:var(--accent);
+}
+.evening__toggle svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.evening.is-open .evening__toggle svg{transform:rotate(180deg)}
+.agenda dt{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:600}
+
+/* ---------- form ---------- */
+.signup{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:48px;align-items:start}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:16px 16px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field--wide{grid-column:1/-1}
+.field>span{font-weight:600;font-size:14px;letter-spacing:.01em}
+.field>span small{font-weight:500;color:var(--text-faint);margin-left:6px}
+.field input,.field textarea{
+  width:100%;background:var(--input-bg);border:1px solid var(--input-border);border-radius:10px;
+  color:var(--text);font-size:16px;padding:13px 15px;outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.field textarea{min-height:96px;resize:vertical;line-height:1.45}
+.field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.12)}
+.field input::placeholder,.field textarea::placeholder{color:#4A4A4A}
+.field .hint{font-size:12.5px;color:var(--text-faint)}
+.field input:user-invalid{border-color:#C43F3F}
+
+.check{display:flex;align-items:flex-start;gap:12px;cursor:pointer;grid-column:1/-1;padding:4px 0}
+.check input{position:absolute;opacity:0;pointer-events:none}
+.check i{
+  flex:0 0 auto;width:22px;height:22px;border-radius:6px;margin-top:1px;
+  border:1px solid var(--input-border);background:var(--input-bg);display:grid;place-items:center;
+}
+.check i svg{width:13px;height:13px;stroke:#0B0B0B;stroke-width:3;fill:none;opacity:0}
+.check input:checked+i{background:var(--accent);border-color:var(--accent)}
+.check input:checked+i svg{opacity:1}
+.check input:focus-visible+i{outline:2px solid var(--accent);outline-offset:2px}
+.check span{font-size:14.5px;line-height:1.4}
+.check span small{display:block;color:var(--text-faint);font-size:12.5px;margin-top:2px}
+
+/* ---------- the aside: what you picked, and the button ---------- */
+.aside{position:sticky;top:24px;display:flex;flex-direction:column;gap:16px;
+  padding:22px;background:var(--surface);border:1px solid var(--input-border);border-radius:18px}
+.aside h3{font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--text-faint)}
+.pick-summary{font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+.needs-pick .pick-summary{color:var(--accent)}
+
+.cta{
+  display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+  background:var(--accent);color:#0B0B0B;border:2px solid var(--accent);border-radius:999px;
+  padding:15px 26px;font-size:15.5px;font-weight:600;white-space:nowrap;cursor:pointer;
+  transition:background .15s,transform .1s,border-color .15s,color .15s;
+}
+.cta svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cta:hover{background:#fff;border-color:#fff}
+.cta:active{transform:scale(.985)}
+.cta:disabled{opacity:.6;cursor:wait}
+.cta:disabled{cursor:not-allowed;background:var(--surface-hi);color:var(--text-faint);border-color:var(--input-border)}
+/* Sending: still yellow, just quiet, so it doesn't read as "nothing picked". */
+.cta.is-busy:disabled{background:var(--accent);border-color:var(--accent);color:#0B0B0B;opacity:.6;cursor:wait}
+
+/* Borrowed from the poster tool's picker: a running highlight round the edge
+   and one sheen across it, only while the form is complete. */
+.attention{
+  position:relative;overflow:hidden;color:#0B0B0B;border-color:transparent;
+  background:linear-gradient(var(--accent),var(--accent)) padding-box,
+             linear-gradient(110deg,#fff,var(--accent),#fff,var(--accent),#fff) border-box;
+  background-size:100% 100%,300% 100%;
+  animation:shine-border 2.6s linear infinite;
+}
+.attention::after{
+  content:"";position:absolute;inset:0;transform:translateX(-150%) skew(-20deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
+  animation:shine-sweep 2.6s ease-in-out infinite;pointer-events:none;
+}
+@keyframes shine-border{to{background-position:0 0,300% 0}}
+@keyframes shine-sweep{55%,to{transform:translateX(150%) skew(-20deg)}}
+
+.fine{display:flex;flex-direction:column;gap:8px;font-size:12px;line-height:1.45;color:var(--text-faint)}
+.fine a{color:var(--text-dim);text-decoration:underline;text-underline-offset:2px}
+.fine a:hover{color:var(--accent)}
+/* Always on the page, under the form — the partners' condition for the list. */
+.consent{margin-top:28px;padding-top:18px;border-top:1px solid var(--input-border);font-size:13px;line-height:1.5;color:var(--text-dim);max-width:70ch}
+.consent a{color:#fff;text-decoration:underline;text-underline-offset:2px}
+.consent a:hover{color:var(--accent)}
+.status{font-size:14px;line-height:1.45;color:#F0A0A0;padding:12px 14px;border:1px solid #4A2222;border-radius:10px;background:#160A0A}
+.ticket-line{font-size:13.5px;color:var(--text-dim);padding-top:14px;border-top:1px solid var(--input-border)}
+.ticket-line a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(var(--accent-rgb),.35)}
+.ticket-line a:hover{border-bottom-color:var(--accent)}
+
+/* ---------- the sticky bar ----------
+   The page's one call to action, pinned so the reader always knows what the
+   page is asking. Same treatment as the poster tool's action bar: blurred
+   near-black, hairline on top, contents aligned to the page's own measure. */
+.bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  background:rgba(5,5,5,.78);
+  backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.bar__in{
+  max-width:var(--measure);margin:0 auto;padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.bar__summary{font-size:14px;color:var(--text-dim);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar__cta{width:auto;flex:0 0 auto;padding:13px 24px}
+body.has-bar{padding-bottom:84px}
+
+/* ---------- done ---------- */
+.done{max-width:720px;padding:clamp(40px,6vw,72px) 0}
+.done h2{font-size:clamp(38px,6vw,72px);line-height:.96;letter-spacing:-.035em;text-transform:uppercase;text-wrap:balance}
+.done h2 em{font-style:normal;color:var(--accent)}
+.done>p{margin-top:18px;font-size:17px;line-height:1.5;color:var(--text-dim);max-width:52ch}
+.done>p b{color:#fff;font-weight:600}
+.done ul{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:12px}
+.done li{
+  display:grid;grid-template-columns:1fr auto;grid-template-areas:"when cal" "title cal" "where cal";gap:3px 20px;align-items:center;
+  padding:18px 20px;border:1px solid var(--input-border);border-radius:14px;background:var(--card);
+}
+.done__when{grid-area:when;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-variant-numeric:tabular-nums}
+.done li strong{grid-area:title;font-size:20px;letter-spacing:-.02em}
+.done li strong em{font-style:normal;font-weight:500;color:var(--text-dim)}
+.done__where{grid-area:where;font-size:14px;color:var(--text-dim)}
+.done__cal{grid-area:cal;font-size:13px;font-weight:600;color:#fff;text-decoration:none;padding:9px 14px;border-radius:999px;border:1px solid var(--input-border);white-space:nowrap}
+.done__cal:hover{border-color:var(--accent);color:var(--accent)}
+.done__next{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.done__next .cta{width:auto;text-decoration:none}
+.done__preview{margin-top:24px;font-size:13px;color:var(--text-faint)}
+
+/* ---------- footer ---------- */
+.foot{margin-top:clamp(56px,8vw,96px);padding:28px 0 40px;border-top:1px solid var(--input-border);
+  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--text-faint)}
+.foot a{color:var(--text-dim);text-decoration:none}
+.foot a:hover{color:var(--accent)}
+.foot .brand-mark{width:56px}
+
+/* ---------- phones ---------- */
+@media (max-width:880px){
+  .hero{min-height:0}
+  .hero__body{padding-top:56px}
+  .evenings{grid-template-columns:1fr}
+  /* The kicker and the pill share the top edge of the photo; on a phone the
+     kicker gets the room left of the pill and wraps, instead of running under it. */
+  .evening__kicker{right:60px;line-height:1.5;letter-spacing:.2em;font-size:11px}
+  /* Compact cards: a short photo strip, tight body, and the description and
+     agenda folded behind a toggle — four of these have to fit a thumb-scroll. */
+  .evening__photo{aspect-ratio:2.2/1}
+  .evening__logos{bottom:12px;left:16px}
+  .evening__kicker{left:16px;top:12px}
+  .evening__badge{right:12px;top:12px;width:30px;height:30px}
+  .evening__cta{padding:13px 16px;font-size:15px}
+  .logo{height:24px}
+  .logo--marvin img{height:26px}
+  .logo--dnda{height:38px}
+  .logo--um{height:44px}
+  .logo--um img{height:44px}
+  .logo--dnda img{height:38px}
+  .logo--dscout img{height:20px}
+  .evening__body{padding:16px 16px 16px;gap:12px}
+  .evening__title{font-size:24px}
+  .evening__title small{font-size:14px;margin-top:4px}
+  .facts{font-size:13.5px;gap:5px 14px}
+  .evening__lede{font-size:16px}
+  .evening__more{display:none}
+  .evening.is-open .evening__more{display:contents}
+  .evening__toggle{display:inline-flex}
+  .evening__vip{left:12px;top:12px;padding:5px 9px;font-size:10px}
+  .evening--vip .evening__kicker{left:60px;top:15px;right:60px}
+  .evening__date b{font-size:17px}
+  .section__head{margin-bottom:18px}
+  .bar__in{padding-top:10px;gap:12px}
+  .bar__summary{font-size:12.5px}
+  .bar__cta{padding:12px 20px;font-size:14.5px}
+  body.has-bar{padding-bottom:88px}
+  .section{padding-top:36px}
+  .hero__body{padding-top:44px;padding-bottom:28px}
+  .signup{grid-template-columns:1fr;gap:28px}
+  .form{grid-template-columns:1fr}
+  .aside{position:static}
+  .done li{grid-template-columns:1fr;grid-template-areas:"when" "title" "where" "cal";gap:4px}
+  .done__cal{justify-self:start;margin-top:8px}
+}
+
+/* ============================================================
+   Motion. Same rules as the poster tool: transform and opacity only,
+   everything inside the reduced-motion guard, and the page waits for
+   .ready so it assembles once rather than reflowing around a late photo.
+   ============================================================ */
+@media (prefers-reduced-motion:no-preference){
+  @keyframes rise{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:none}}
+  @keyframes deal{from{opacity:0;transform:translate3d(-14px,6px,0)}to{opacity:1;transform:none}}
+  @keyframes settle{from{opacity:0;transform:translate3d(0,26px,0) scale(.975)}to{opacity:1;transform:none}}
+  @keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.12)}}
+  @keyframes wash{from{opacity:0}to{opacity:1}}
+
+  /* Only the hero's own pieces start hidden — everything below the fold rests
+     visible, so a shared link or a thumbnail still shows the whole page. */
+  body:not(.ready) .hero__top,body:not(.ready) .hero__body>*{opacity:0}
+  body:not(.ready) .hero__img{opacity:0}
+  body.ready .hero__img{animation:wash 1.1s ease-out both,drift 18s ease-out .2s both}
+  body.ready .hero__top{animation:rise .6s cubic-bezier(.22,.8,.25,1) .15s both}
+  body.ready .hero__body>*{animation:deal .55s cubic-bezier(.22,.8,.25,1) both;animation-delay:calc(var(--i,0)*90ms + 260ms)}
+  body.ready .evening{animation:settle .7s cubic-bezier(.22,.9,.25,1) both;animation-delay:calc(var(--i,0)*120ms + 520ms)}
+
+  /* ---------- the cards ----------
+     Hover lifts the whole card and pushes into the photo; press squashes it;
+     choosing it pops. The button at the foot answers every one of these too,
+     so the card and its button always read as one thing. */
+  .evening{transition:transform .38s cubic-bezier(.22,.9,.25,1),border-color .25s,box-shadow .38s}
+  .evening:hover{
+    transform:translateY(-6px);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.85),0 0 0 1px rgba(var(--accent-rgb),.35),0 0 70px -24px rgba(var(--accent-rgb),.45);
+  }
+  .evening.is-on:hover{box-shadow:0 30px 60px -20px rgba(0,0,0,.85),0 0 0 1px var(--accent),0 0 90px -20px rgba(var(--accent-rgb),.6)}
+  .evening:active{transform:translateY(-2px) scale(.98);transition-duration:.1s}
+  .evening__photo img{transition:transform 1.4s cubic-bezier(.22,.8,.25,1),filter .5s}
+  .evening:hover .evening__photo img{transform:scale(1.08);filter:brightness(1.08) saturate(1.1)}
+  .evening__photo::after{transition:opacity .4s}
+  .evening__kicker,.evening__logos{transition:transform .5s cubic-bezier(.22,.8,.25,1)}
+  .evening:hover .evening__kicker{transform:translateX(4px)}
+  .evening:hover .evening__logos{transform:translateY(-3px)}
+  .evening__badge{transition:transform .45s cubic-bezier(.2,1.6,.4,1),opacity .2s}
+  .evening__cta{transition:background .22s,color .22s,border-color .22s,transform .22s cubic-bezier(.22,.8,.25,1),box-shadow .3s}
+  .evening:hover .evening__cta{transform:translateY(-1px);box-shadow:0 10px 26px -10px rgba(var(--accent-rgb),.35)}
+  .evening.is-on .evening__cta{box-shadow:0 10px 30px -8px rgba(var(--accent-rgb),.5)}
+  .evening__cta i{transition:background .22s,border-color .22s,transform .3s cubic-bezier(.2,1.4,.4,1)}
+  .evening:hover .evening__cta i{transform:scale(1.08)}
+  .evening__cta i svg{transition:stroke-dashoffset .35s cubic-bezier(.22,.9,.25,1) .05s}
+  @keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.025) translateY(-4px)}100%{transform:scale(1)}}
+  .evening.is-pop{animation:pop .55s cubic-bezier(.2,1.2,.4,1)}
+  .cta:disabled:hover{transform:none;box-shadow:none}
+
+  .cta{transition:background .18s,color .18s,border-color .18s,transform .18s cubic-bezier(.22,.8,.25,1),box-shadow .22s}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(var(--accent-rgb),.22)}
+  .cta:active{transform:translateY(0) scale(.985)}
+  .cta svg{transition:transform .22s cubic-bezier(.22,.8,.25,1)}
+  .cta:hover svg{transform:translateX(3px)}
+  .hero__ticket{transition:border-color .18s,color .18s,transform .18s}
+  .hero__ticket:hover{transform:translateY(-1px)}
+  .ticket-line a,.foot a{transition:color .2s,border-color .2s}
+  .done__cal{transition:border-color .18s,color .18s,transform .18s}
+  .done__cal:hover{transform:translateY(-1px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .attention,.attention::after{animation:none}
+  html{scroll-behavior:auto}
+}
+
+/* ---------- VIP build ----------
+   Four cards instead of two: the invitation-only pair leads, marked by a
+   yellow kicker rule rather than a different colour — one accent, still. */
+.evening__vip{
+  position:absolute;left:16px;top:14px;z-index:2;
+  padding:6px 11px;border-radius:999px;background:var(--accent);color:#0B0B0B;
+  font-size:11px;font-weight:700;letter-spacing:.2em;line-height:1;
+  box-shadow:0 6px 18px -6px rgba(var(--accent-rgb),.6);
+}
+.evening--vip .evening__kicker{left:68px;top:18px}
+.evening--vip .evening__title small{color:#fff}
+.evening--vip{border-color:rgba(var(--accent-rgb),.32)}
+
+/* The two shared evenings on the VIP page: same card, smaller cut, details folded. */
+.evenings__divider{
+  grid-column:1/-1;display:flex;align-items:center;gap:16px;margin:14px 0 -4px;
+  font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--text-faint);
+}
+.evenings__divider::before,.evenings__divider::after{content:"";flex:1;height:1px;background:var(--input-border)}
+.evening--minor .evening__photo{aspect-ratio:2.6/1}
+.evening--minor .evening__body{padding:18px 18px 18px;gap:12px}
+.evening--minor .evening__title{font-size:22px}
+.evening--minor .evening__title small{font-size:14px;margin-top:4px}
+.evening--minor .evening__date{padding:8px 12px}
+.evening--minor .evening__date b{font-size:16px}
+.evening--minor .evening__date span{font-size:14px}
+.evening--minor .evening__lede{font-size:16px}
+.evening--minor .evening__more{display:none}
+.evening--minor.is-open .evening__more{display:contents}
+.evening--minor .evening__toggle{display:inline-flex}
+.evening--minor .evening__cta{padding:12px 16px;font-size:15px}
+.logo--esp img{height:17px;width:auto}
+.logo--um{height:56px}
+.logo--um img{height:56px;width:auto}
+/* Miami has a single evening: one card, comfortably wide, not half a grid. */
+body.miami .evenings{grid-template-columns:minmax(0,760px)}
+.logo--dnda{height:46px}
+.logo--dnda img{height:46px;width:auto}
+@media (min-width:881px){
+  body.vip .evenings{grid-template-columns:1fr 1fr}
+}

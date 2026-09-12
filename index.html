@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DDX San Diego VIP</title>
+<meta name="description" content="Your VIP invitations around DDX San Diego, 16–17 September 2026: the dinner with Edenspiekermann, Don Norman's roundtable, Create Now with Adobe and the Happy Hour with Marvin &amp; dscout. Tell us which you are taking.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DDX San Diego — a few seats saved for you">
+<meta property="og:description" content="VIP dinner, Don Norman's roundtable and the two evenings around the conference. Accept your invitations.">
+<meta property="og:url" content="https://vip-sandiego.ddxconference.com/">
+<meta property="og:image" content="https://vip-sandiego.ddxconference.com/assets/img/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=20260912211007">
+</head>
+<body>
+
+<div class="preview-bar" id="previewBar" hidden>Preview build — sign-ups are not being saved yet.</div>
+
+<header class="hero">
+  <img class="hero__img" src="assets/img/bg/sunset-cliffs.jpg" alt="" width="1349" height="1800" fetchpriority="high">
+  <div class="wrap hero__top">
+    <a href="https://www.ddxconference.com/sandiego" data-city="site" aria-label="DDX"><img src="assets/img/ddx-wordmark.png" alt="DDX" class="brand-mark"></a>
+    <a class="hero__ticket" href="https://luma.com/ddxsd" data-city="tickets" target="_blank" rel="noopener">Need a ticket?</a>
+  </div>
+  <div class="wrap hero__body">
+    <p class="eyebrow" style="--i:0"><i></i><span id="eyebrowName">DDX San Diego</span><span id="eyebrowDates">16 – 17 September 2026</span></p>
+    <h1 id="heroH1" style="--i:1">One day<br>on stage.<br><em>Two evenings</em><br>to remember.</h1>
+    <p class="hero__sub" id="heroSub" style="--i:2">The talks are why you booked the ticket. The evenings are why you’ll come back. <b>Both are free for DDX ticket holders</b> — tell us which ones you’re joining.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="section" id="evenings" aria-labelledby="evTitle">
+    <div class="section__head">
+      <h2 id="evTitle">Pick your evenings</h2>
+      <p id="evSub">Tap a card to add it. Both is the right answer.</p>
+    </div>
+
+    <div class="evenings" id="eveningsList"></div>
+  </section>
+
+  <section class="section" id="signup-section" aria-labelledby="formTitle">
+    <div id="formWrap">
+      <div class="section__head">
+        <h2 id="formTitle">Save your spot</h2>
+        <p id="formSub">One form for both evenings. We use the same details as your DDX ticket, so the door list matches.</p>
+      </div>
+
+      <form class="signup" id="signup" novalidate>
+        <div class="form">
+          <label class="field">
+            <span>Full name</span>
+            <input name="name" type="text" required autocomplete="name" placeholder="As it should read on the door list" maxlength="80">
+          </label>
+          <label class="field">
+            <span>Business email</span>
+            <input name="email" type="email" required autocomplete="email" placeholder="you@company.com" maxlength="120">
+            <span class="hint">The address you used for your DDX ticket.</span>
+          </label>
+          <label class="field">
+            <span>Role</span>
+            <input name="role" type="text" required autocomplete="organization-title" placeholder="Head of Design, Product Lead…" maxlength="80">
+          </label>
+          <label class="field">
+            <span>Company</span>
+            <input name="company" type="text" required autocomplete="organization" placeholder="Where you do your best work" maxlength="80">
+          </label>
+          <label class="field">
+            <span>Country <small>optional</small></span>
+            <input name="country" type="text" autocomplete="country-name" placeholder="Where you’re flying in from" maxlength="60">
+          </label>
+          <label class="field">
+            <span>Phone <small>optional</small></span>
+            <input name="phone" type="tel" autocomplete="tel" placeholder="For day-of changes only" maxlength="40">
+          </label>
+          <label class="check">
+            <input name="ticket" type="checkbox">
+            <i><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></i>
+            <span>I have my DDX San Diego ticket<small>Side events are for ticket holders. Not booked yet? There’s a link on the right.</small></span>
+          </label>
+        </div>
+
+        <aside class="aside">
+          <h3>You’re joining</h3>
+          <p class="pick-summary" id="pickSummary">Nothing picked yet.</p>
+          <p class="status" id="status" hidden></p>
+          <div class="fine" id="fine"></div>
+          <p class="ticket-line">Not registered for DDX yet? <a href="https://luma.com/ddxsd" data-city="tickets" target="_blank" rel="noopener">Get your ticket →</a></p>
+        </aside>
+      </form>
+      <p class="consent" id="consent">By submitting your information, you agree to <a href="https://heymarvin.com/privacy" target="_blank" rel="noopener">Marvin</a> and <a href="https://www.dscout.com/legal/researcher-visitor-privacy-policy" target="_blank" rel="noopener">Dscout</a>’s privacy policies. You can opt out anytime.</p>
+    </div>
+
+    <div class="done" id="done" hidden>
+      <p class="eyebrow"><i></i><span>You’re on the list</span></p>
+      <h2 style="margin-top:18px">See you there,<br><em id="doneName">Sebastian</em>.</h2>
+      <p id="doneSub">We’ve saved your spot and will confirm to <b id="doneMail"></b> before the week. Bring the ticket QR, and your questions from the day.</p>
+      <ul id="doneList"></ul>
+      <div class="done__next">
+        <a class="cta" id="posterLink" href="https://share.ddxconference.com/?edition=san-diego" target="_blank" rel="noopener">Make your “I am going” post <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <p class="done__preview" id="donePreview" hidden>Preview build: this sign-up was not saved. The live page writes straight to the DDX team’s list.</p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <a href="https://www.ddxconference.com" aria-label="DDX"><img src="assets/img/ddx-wordmark.png" alt="DDX" class="brand-mark"></a>
+    <span id="footLine">DDX San Diego · 17 September 2026 · UC San Diego Park &amp; Market</span>
+    <a href="https://www.ddxconference.com/sandiego" data-city="site" id="footSite">ddxconference.com/sandiego</a>
+  </footer>
+
+</main>
+
+<!-- The one call to action, pinned to the bottom of the screen so it is never
+     out of sight. It submits the form above; disabled until something is picked. -->
+<div class="bar" id="bar">
+  <div class="bar__in">
+    <p class="bar__summary" id="barSummary">Pick an evening above to start.</p>
+    <button class="cta bar__cta" id="submitBtn" type="submit" form="signup" disabled>
+      <span id="submitLabel">Confirm</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script type="module" src="assets/js/main.js?v=20260912211007"></script>
+</body>
+</html>

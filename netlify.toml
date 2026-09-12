@@ -1,0 +1,46 @@
+# Deploy config for side-sandiego.ddxconference.com on Netlify.
+# Static folder plus one function; Netlify serves both from the same origin,
+# so the page posts to a relative /api/submit and there is no CORS to get wrong.
+
+[build]
+  publish = "."
+  command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# The inbox validates against the page's own event list, so the two can't drift.
+[functions."submit"]
+  included_files = ["assets/js/**"]
+[functions."inbox"]
+  included_files = []
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=600, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=600, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"

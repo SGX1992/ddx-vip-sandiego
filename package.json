@@ -1,0 +1,9 @@
+{
+  "name": "ddx-side-sandiego",
+  "private": true,
+  "type": "module",
+  "description": "DDX San Diego side-event sign-up — static page + Netlify inbox",
+  "dependencies": {
+    "@netlify/blobs": "^9"
+  }
+}
